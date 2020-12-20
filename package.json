@@ -1,0 +1,64 @@
+{
+  "name": "university-tasks-backend",
+  "version": "1.0.0",
+  "description": "BACKEND side application for university project",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "./node_modules/eslint/bin/eslint.js ./src",
+    "start": "nodemon --exec babel-node ./src/server.js --watch ./src",
+    "lint-fix:win": "node node_modules/eslint/bin/eslint.js --fix ./src",
+    "lint-fix:linux": "./node_modules/eslint/bin/eslint.js --fix ./src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arvy1998/university-tasks-backend.git"
+  },
+  "keywords": [
+    "backend"
+  ],
+  "author": "Arvydas Baranauskas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Arvy1998/university-tasks-backend/issues"
+  },
+  "homepage": "https://github.com/Arvy1998/university-tasks-backend#readme",
+  "dependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/node": "^7.8.7",
+    "@babel/plugin-transform-runtime": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "aws-sdk": "^2.660.0",
+    "babel-eslint": "^10.1.0",
+    "babel-node": "0.0.1-security",
+    "babel-plugin-inline-import": "^3.0.0",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "bcrypt": "^4.0.1",
+    "body-parser": "^1.19.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
+    "express-openapi": "^6.0.0",
+    "express-validator": "^6.4.0",
+    "http": "0.0.1-security",
+    "https": "^1.0.0",
+    "jsdoc": "^3.6.4",
+    "jsonwebtoken": "^8.5.1",
+    "mime-type": "^3.0.7",
+    "mime-types": "^2.1.26",
+    "mongoose": "^5.9.9",
+    "multer": "^1.4.2",
+    "nodemon": "^2.0.3",
+    "response-time": "^2.3.2",
+    "uuid": "^7.0.3",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "babel-core": "^7.0.0-bridge.0"
+  },
+  "engines": {
+    "node": "12.4.0"
+  }
+}
