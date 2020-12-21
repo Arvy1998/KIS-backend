@@ -4,7 +4,7 @@ info:
   description: Service for API of university task management.
   version: 1.0.0
 servers:
-  - url: https://KIS/v1
+  - url: https://kalibatiene-app-backend.herokuapp.com/v1/
 paths:
 
 ###################
