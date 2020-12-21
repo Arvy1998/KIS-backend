@@ -76,21 +76,21 @@ initialize({
         fields[path] = `${location} ${message}`;
       });
       return response.status(400).send({
-        error: 'Your input maybe is broken. Check the output bellow:',
+        error: 'Input is broken...',
         fields,
       });
     }
     if (error instanceof UserNotAuthorized) {
       return response.status(401).send(
-        { error: 'Get your dirty hands off our application, hacker!' },
+        { error: 'Not authorized...' },
       );
     } if (error instanceof DuplicateUser) {
       return response.status(400).send(
-        { error: 'We already know you!' },
+        { error: 'Duplicate user...' },
       );
     } if (error instanceof UserNotAdmin) {
       return response.status(400).send(
-        { error: 'Seem like you do not have administrative rights to perform this task!' },
+        { error: 'User is not admin...' },
       );
     } if (error instanceof UserDoesNotExist) {
       return response.status(404).send(
@@ -127,19 +127,19 @@ initialize({
 });
 
 app.use((request, response) => {
-  response.status(500).send({ error: 'We are having crisis, it\'s not your fault...' });
+  response.status(500).send({ error: 'Internal server error...' });
 });
 
 app.use((request, response) => {
-  response.status(408).send({ error: 'The request timeouted...' });
+  response.status(408).send({ error: 'Request timeout...' });
 });
 
 app.use((request, response) => {
-  response.status(404).send({ error: 'Requested resource does not exist...' });
+  response.status(404).send({ error: 'Resource does not exist...' });
 });
 
 app.use((request, response) => {
-  response.status(400).send({ error: 'Something is wrong, check your data before sending us a love letter.' });
+  response.status(400).send({ error: 'Broken input...' });
 });
 
 /* const httpServer = http.createServer(app); */
