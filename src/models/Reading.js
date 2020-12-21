@@ -6,6 +6,10 @@ const readingSchema = new mongoose.Schema({
     required: true,
   },
   value: Number,
+  serviceId: {
+    type: String,
+    required: true,
+  },
 });
 
 const Reading = mongoose.model('Reading', readingSchema);

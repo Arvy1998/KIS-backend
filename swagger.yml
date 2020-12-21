@@ -25,9 +25,11 @@ paths:
         required: true
         description: > 
           The data body of the service to be created on mongo database. Required fields are those:
-           - `lecturerId`
-           - `disciplineId`
+           - `title`
            - `type`
+           - `userId`
+          > Other data:
+           - `unit`
         content:
           application/json:
             schema:
@@ -38,7 +40,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServiceResponse'
+                $ref: '#/components/schemas/Service'
         '400':
           description: The response is bad because request are malformed or openapi express validations fails.
           content:
@@ -102,7 +104,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ServiceResponse'
+                  $ref: '#/components/schemas/Service'
         '400':
           description: The response is bad because request are malformed or openapi express validations fails.
           content:
@@ -158,7 +160,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServiceResponse'
+                $ref: '#/components/schemas/Service'
         '400':
           description: The response is bad because request are malformed or openapi express validations fails.
           content:
@@ -221,14 +223,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ServiceForPatch'
+              $ref: '#/components/schemas/Service'
       responses:
         '200':
           description: The updated task JSON body indicating successfully made request.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServiceResponse'
+                $ref: '#/components/schemas/Service'
         '400':
           description: The response is bad because request are malformed or openapi express validations fails.
           content:
@@ -353,7 +355,10 @@ paths:
         required: true
         description: >
           The data body of the reading to be created on mongo database. Required fields are those:
-           - `title`
+           - `date`
+           - `serviceId`
+          > Not required:
+           - `value`
         content:
           application/json:
             schema:
@@ -556,7 +561,7 @@ paths:
       requestBody:
         required: true
         description: >
-          The data body of the user for upsertion and authentication. Required fields are those:
+          The data body of the user for upsertion and authentication. Required login fields are those:
            - `email`
            - `password`
         content:
@@ -606,6 +611,7 @@ paths:
         required: true
         description: >
           The data body of the user for upsertion and authentication. Required fields are those:
+           - `name`
            - `email`
            - `password`
         content:
@@ -688,133 +694,38 @@ components:
       
   schemas:
     Service:
-      required: 
-        - lecturerId
-        - disciplineId
-        - type
       properties:
         _id:
           type: string
-          description: The internal mongo id value of the task's entity.
-        lecturerId:
+          description: The internal mongo id value of the service's entity.
+        title:
           type: string
-          description: The internal mongo id value of the lecturer's entity.
-        disciplineId:
-          type: string
-          description: The internal mongo id value of the discipline's entity.
+          description: Title of the service.
         type:
           type: string
-          enum: [LABORATORY_WORK, TEST_WORK, COURSE_WORK, HOME_WORK, EXAMINATION, SEMI_EXAMINATION, THESIS_WORK]
-          description: The type of the task entity.
-        studentCode:
+          enum: [WATER, ENERGY, HEAT, PHONE, INTERNET, TV, MANUAL]
+          description: The type of the service entity.
+        userId:
           type: string
-          description: The identification code of the student given by University itself.
-        isDone:
-          type: boolean
-          description: The boolean value indicating task's completion status.
-          default: false
-        description:
+          description: The id of the user holding service.
+        unit:
           type: string
-          description: The more information about defined task.
-        dueDate:
-          type: string
-          format: date-time
-          description: The ISO date the task is due to.
-          
-    ServiceResponse:
-      properties:
-        _id:
-          type: string
-          description: The internal mongo id value of the task's entity.
-        lecturer:
-          type: object
-          properties:
-            _id:
-              type: string
-              description: The internal mongo id value of the lecturer's entity.
-            name:
-              type: string
-              description: The lecturers name.
-            surname:
-              type: string
-              description: The lecturers surname.
-        discipline:
-          type: object
-          properties:
-            _id:
-              type: string
-              description: The internal mongo id value of the discipline's entity.
-            title:
-              type: string
-              description: The title of the discipline.
-            aliases:
-              type: array
-              items:
-                type: string
-                description: The nicknames/shorts for the discipline title.
-        type:
-          type: string
-          enum: [LABORATORY_WORK, TEST_WORK, COURSE_WORK, HOME_WORK, EXAMINATION, SEMI_EXAMINATION, THESIS_WORK]
-          description: The type of the task entity.
-        studentCode:
-          type: string
-          description: The identification code of the student given by University itself.
-        isDone:
-          type: boolean
-          description: The boolean value indicating task's completion status.
-          default: false
-        description:
-          type: string
-          description: The more information about defined task.
-        dueDate:
-          type: string
-          format: date-time
-          description: The ISO date the task is due to.
-
-    ServiceForPatch:
-      properties:
-        _id:
-          type: string
-          description: The internal mongo id value of the task's entity.
-        lecturerId:
-          type: string
-          description: The internal mongo id value of the lecturer's entity.
-        disciplineId:
-          type: string
-          description: The internal mongo id value of the discipline's entity.
-        type:
-          type: string
-          enum: [LABORATORY_WORK, TEST_WORK, COURSE_WORK, HOME_WORK, EXAMINATION, SEMI_EXAMINATION, THESIS_WORK]
-          description: The type of the task entity.
-        studentCode:
-          type: string
-          description: The identification code of the student given by University itself.
-        isDone:
-          type: boolean
-          description: The boolean value indicating task's completion status.
-          default: false
-        description:
-          type: string
-          description: The more information about defined task.
-        dueDate:
-          type: string
-          format: date-time
-          description: The ISO date the task is due to.
+          description: The unit of the service reading.
         
     Reading:
       required: 
-        - name
-        - surname
+        - date
       properties:
         _id:
           type: string
-          description: The internal mongo id value of the lecturer's entity.
-        name:
+          description: The internal mongo id value of the reading's entity.
+        date:
           type: string
-          description: Lecturer's first or/and second name.
-        surname:
-          type: string
-          description: Lecturer's surname.
+          format: date-time
+          description: Date of the value.
+        value:
+          type: number
+          description: Value of the reading.
       
     User:
       required: 
