@@ -5,7 +5,7 @@
  */
 class DuplicateUser extends Error {
   constructor() {
-    super('User is already registered...');
+    super('User is already registered...'); 
   }
 }
 
