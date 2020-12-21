@@ -42,7 +42,7 @@ import isOpenApiError from 'validations/isOpenApiError';
 import apiDoc from '../swagger.yml';
 import connect from './connect';
 
-const port = 3000;
+const port = process.env.port || 3000;
 
 const app = express();
 const jsonBodyParser = bodyParser.json({});
@@ -142,9 +142,9 @@ app.use((request, response) => {
   response.status(400).send({ error: 'Broken input...' });
 });
 
-const httpServer = http.createServer(app);
-// const httpsServer = https.createServer(credentials, app);
+//const httpServer = http.createServer(app);
+const httpsServer = https.createServer(credentials, app);
 
-httpServer.listen(8080, () => console.log('Server is listening on port 8080'));
-//httpsServer.listen(port, () => console.log(`Server is listening on port ${port}`));
+//httpServer.listen(3000, '0.0.0.0', () => console.log('Server is listening on port 8080'));
+httpsServer.listen(port, () => console.log(`Server is listening on port ${port}`));
 module.exports = app;
