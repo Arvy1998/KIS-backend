@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const studentSchema = new mongoose.Schema({
-  studentCode: {
+  email: {
     type: String,
     unique: true,
     required: true,
@@ -11,10 +11,11 @@ const studentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  isAdmin: {
-    type: Boolean,
-    default: false,
+  name: {
+    type: String,
+    required: true,
   },
+  phone: String,
 });
 
 const Student = mongoose.model('Student', studentSchema);
