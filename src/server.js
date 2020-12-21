@@ -7,7 +7,7 @@ import { initialize } from 'express-openapi';
 import 'express-async-errors';
 
 import https from 'https';
-/* import http from 'http'; */
+import http from 'http';
 import fs from 'fs';
 
 /* API operations */
