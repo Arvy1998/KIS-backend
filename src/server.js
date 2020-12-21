@@ -142,9 +142,9 @@ app.use((request, response) => {
   response.status(400).send({ error: 'Broken input...' });
 });
 
-/* const httpServer = http.createServer(app); */
-const httpsServer = https.createServer(credentials, app);
+const httpServer = http.createServer(app);
+// const httpsServer = https.createServer(credentials, app);
 
-/* httpServer.listen(8080, () => console.log('Server is listening on port 8080')); */
-httpsServer.listen(port, () => console.log(`Server is listening on port ${port}`));
+httpServer.listen(8080, () => console.log('Server is listening on port 8080'));
+//httpsServer.listen(port, () => console.log(`Server is listening on port ${port}`));
 module.exports = app;
