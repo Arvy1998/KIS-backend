@@ -651,7 +651,7 @@ paths:
                   example: We are having crisis, it's not your fault...
                   description: The error message.
                   
-  /user/{email}:
+  /user:
     get:
       security:
         - bearerAuth: []
@@ -660,7 +660,7 @@ paths:
       tags:
         - User
       parameters:
-        - in: path
+        - in: query
           name: email
           required: true
           description: The unique email of the certain user.
