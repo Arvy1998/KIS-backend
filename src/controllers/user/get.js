@@ -8,7 +8,7 @@ const getUser = async (email) => {
       email,
       password: user.password,
       name: user.name,
-      phone: user.name,
+      phone: user.phone,
     };
   } else return false;
 };
