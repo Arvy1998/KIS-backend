@@ -2,8 +2,7 @@ import User from 'models/User';
 
 const getUser = async (email) => {
   const user = await User.findOne({ email });
-  console.log({user});
-  if (student) {
+  if (user) {
     return {
       _id: user._id,
       email,

@@ -5,7 +5,7 @@ import verifyToken from 'validations/verifyToken';
 import UserNotAuthorized from 'errors/UserNotAuthorized';
 
 const getUserOperation = async (request, response) => {
-  const { email } = request.params;
+  const { email } = request.query;
 
   const loggedIn = await verifyToken(request);
 
