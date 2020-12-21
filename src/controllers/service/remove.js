@@ -1,16 +1,9 @@
-import Task from 'models/Task';
+import Service from 'models/Service';
 
-/**
- * @function removeTask
- * Removes existing task's entry from database.
- * @param {String} taskId The task's mongo id value.
- * @returns {Boolean} Returns deletion operation status
- * by sending boolean value.
- */
-const removeTask = async (taskId) => {
-  const removed = await Task.deleteOne({ _id: taskId });
+const removeService = async (serviceId) => {
+  const removed = await Service.deleteOne({ _id: serviceId });
   if (removed.deletedCount !== 0) return true;
   return false;
 };
 
-export default removeTask;
+export default removeService;

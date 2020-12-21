@@ -11,36 +11,22 @@ import https from 'https';
 import fs from 'fs';
 
 /* API operations */
-/* task's operations */
-import createTaskOperation from 'operations/task/create';
-import fetchTaskOperation from 'operations/task/fetch';
-import getTaskOperation from 'operations/task/get';
-import updateTaskOperation from 'operations/task/update';
-import removeTaskOperation from 'operations/task/remove';
+/* service's operations */
+import createServiceOperation from 'operations/service/create';
+import fetchServiceOperation from 'operations/service/fetch';
+import getServiceOperation from 'operations/service/get';
+import updateServiceOperation from 'operations/service/update';
+import removeServiceOperation from 'operations/service/remove';
 
-/* lecturer's operations */
-import createLecturerOperation from 'operations/lecturer/create';
-import fetchLecturerOperation from 'operations/lecturer/fetch';
-import removeLecturerOperation from 'operations/lecturer/remove';
+/* reading's operations */
+import createReadingOperation from 'operations/reading/create';
+import fetchReadingOperation from 'operations/reading/fetch';
+import removeReadingOperation from 'operations/reading/remove';
 
-/* discipline's operations */
-import createDisciplineOperation from 'operations/discipline/create';
-import fetchDisciplineOperation from 'operations/discipline/fetch';
-import removeDisciplineOperation from 'operations/discipline/remove';
-
-/* discipline-lecturer relationship's operations */
-import createDisciplineLecturerOperation from 'operations/disciplineLecturer/create';
-import fetchDisciplineLecturerOperation from 'operations/disciplineLecturer/fetch';
-import removeDisciplineLecturerOperation from 'operations/disciplineLecturer/remove';
-
-/* student's operations */
-import loginStudentOperation from 'operations/student/login';
-import registerStudentOperation from 'operations/student/register';
-import profileStudentOperation from 'operations/student/profile';
-
-/* file upload feature operations */
-import uploadFileOperation from 'operations/file/upload';
-import fetchFileOperation from 'operations/file/fetch';
+/* user's operations */
+import loginUserOperation from 'operations/user/login';
+import registerUserOperation from 'operations/user/register';
+import getUserOperation from 'operations/user/get';
 
 /* errors */
 import PasswordsMissmatch from 'errors/PasswordsMissmatch';
@@ -62,8 +48,8 @@ const app = express();
 const jsonBodyParser = bodyParser.json({});
 /* const urlEncoded = bodyParser.urlencoded({ extended: true }); */
 
-const privateKey = fs.readFileSync(`${__dirname}/ssl/service-task.key`);
-const certificate = fs.readFileSync(`${__dirname}/ssl/service-task.cert`);
+const privateKey = fs.readFileSync(`${__dirname}/ssl/service.key`);
+const certificate = fs.readFileSync(`${__dirname}/ssl/service.cert`);
 
 const credentials = { key: privateKey, cert: certificate };
 
@@ -121,31 +107,22 @@ initialize({
     } return next();
   },
   operations: {
-    /* task's operations */
-    createTaskOperation,
-    fetchTaskOperation,
-    getTaskOperation,
-    updateTaskOperation,
-    removeTaskOperation,
-    /* lecturer's operations */
-    createLecturerOperation,
-    fetchLecturerOperation,
-    removeLecturerOperation,
-    /* discipline's operations */
-    createDisciplineOperation,
-    fetchDisciplineOperation,
-    removeDisciplineOperation,
-    /* discipline-lecturer relationship's operations */
-    createDisciplineLecturerOperation,
-    fetchDisciplineLecturerOperation,
-    removeDisciplineLecturerOperation,
-    /* student's operations */
-    loginStudentOperation,
-    registerStudentOperation,
-    profileStudentOperation,
-    /* file upload feature operations */
-    uploadFileOperation,
-    fetchFileOperation,
+    /* service's operations */
+    createServiceOperation,
+    fetchServiceOperation,
+    getServiceOperation,
+    updateServiceOperation,
+    removeServiceOperation,
+
+    /* reading's operations */
+    createReadingOperation,
+    fetchReadingOperation,
+    removeReadingOperation,
+
+    /* user's operations */
+    loginUserOperation,
+    registerUserOperation,
+    getUserOperation,
   },
 });
 

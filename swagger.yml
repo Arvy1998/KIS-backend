@@ -4,47 +4,41 @@ info:
   description: Service for API of university task management.
   version: 1.0.0
 servers:
-  - url: https://service-university-task/v1
+  - url: https://KIS/v1
 paths:
 
 ###################
 ###################
-##   TASK API    ##
+##   SERVICE API    ##
 ###################
 ###################
 
-  /task:
+  /service:
     post:
       security:
         - bearerAuth: []
-      summary: Creates a new task entry on the mongo database.
-      operationId: createTaskOperation
+      summary: Creates a new service entry on the mongo database.
+      operationId: createServiceOperation
       tags:
-        - Task
-      parameters:
-        - in: header
-          name: student-code
-          schema:
-            type: string
-          required: true
+        - Service
       requestBody:
         required: true
         description: > 
-          The data body of the task to be created on mongo database. Required fields are those:
+          The data body of the service to be created on mongo database. Required fields are those:
            - `lecturerId`
            - `disciplineId`
            - `type`
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Task'
+              $ref: '#/components/schemas/Service'
       responses:
         '200':
           description: The created task JSON body indicating successfully made request.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TaskResponse'
+                $ref: '#/components/schemas/ServiceResponse'
         '400':
           description: The response is bad because request are malformed or openapi express validations fails.
           content:
@@ -54,7 +48,7 @@ paths:
                   example: Something is wrong, check your data before sending us a love letter.
                   description: The error message.
         '401':
-          description: The student are not authorized to perform operation.
+          description: The user are not authorized to perform operation.
           content:
             text/plain:
                 schema:
@@ -81,46 +75,34 @@ paths:
     get:
       security:
         - bearerAuth: []
-      summary: Fetches all student's tasks by filtering them with one or more query entries. Query parameters can be used in any way - can not be defined, only one can be defined, multiple queries can also be used.
-      operationId: fetchTaskOperation
+      summary: Fetches all services by filtering them with one or more query entries.
+      operationId: fetchServiceOperation
       tags:
-        - Task
+        - Service
       parameters:
-        - in: header
-          name: student-code
-          schema:
-            type: string
-          required: true
         - in: query
-          name: lecturerId
+          name: userId
           required: false
-          description: The internal mongo id value for the lecturer's entity. To filter task entries for the certain lecturer.
+          description: The internal mongo id value for the user's entity.
           schema:
             type: string
             minLength: 24
         - in: query
-          name: disciplineId
+          name: type
           required: false
-          description: The internal mongo id value for the discipline's entity. To filter task entries for the certain discipline.
+          description: The type of the service.
           schema:
             type: string
             minLength: 24
-        - in: query
-          name: studentCode
-          required: false
-          description: The identification code of the student given by University itself. To filter task entries for one authorized student.
-          schema:
-            type: string
-            minLength: 8
       responses:
         '200':
-          description: The fetched task entries by any of query parameters choosen. Array of entries and empty array can be returned to indicate empty list. Returning array in JSON body to indicate successfully made request.
+          description: The fetched service entries by any of query parameters choosen. Array of entries and empty array can be returned to indicate empty list. Returning array in JSON body to indicate successfully made request.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TaskResponse'
+                  $ref: '#/components/schemas/ServiceResponse'
         '400':
           description: The response is bad because request are malformed or openapi express validations fails.
           content:
@@ -130,7 +112,7 @@ paths:
                   example: Something is wrong, check your data before sending us a love letter.
                   description: The error message.
         '401':
-          description: The student are not authorized to perform operation.
+          description: The user are not authorized to perform operation.
           content:
             text/plain:
                 schema:
@@ -154,34 +136,29 @@ paths:
                   example: We are having crisis, it's not your fault...
                   description: The error message.
           
-  /task/{taskId}:
+  /service/{serviceId}:
     get:
       security:
         - bearerAuth: []
-      summary: Gathers single task entry by passing internal mongo id of the task.
-      operationId: getTaskOperation
+      summary: Gathers single service entry by passing internal mongo id of the service.
+      operationId: getServiceOperation
       tags:
-        - Task
+        - Service
       parameters:
-        - in: header
-          name: student-code
-          schema:
-            type: string
-          required: true
         - in: path
-          name: taskId
+          name: serviceId
           required: true
-          description: The internal mongo id value for the task's entity.
+          description: The internal mongo id value for the service's entity.
           schema:
             type: string
             minLength: 24
       responses:
         '200':
-          description: The requested task entity is found, returning task JSON body to indicate successfully made request.
+          description: The requested service entity is found, returning service JSON body to indicate successfully made request.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TaskResponse'
+                $ref: '#/components/schemas/ServiceResponse'
         '400':
           description: The response is bad because request are malformed or openapi express validations fails.
           content:
@@ -191,7 +168,7 @@ paths:
                   example: Something is wrong, check your data before sending us a love letter.
                   description: The error message.
         '401':
-          description: The student are not authorized to perform operation.
+          description: The user are not authorized to perform operation.
           content:
             text/plain:
                 schema:
@@ -226,37 +203,32 @@ paths:
     patch:
       security:
         - bearerAuth: []
-      summary: Updates single task entry by passing mongo id of the task and specific field to update.
-      operationId: updateTaskOperation
+      summary: Updates single service entry by passing mongo id of the service and specific field to update.
+      operationId: updateServiceOperation
       tags:
-        - Task
+        - Service
       parameters: 
-        - in: header
-          name: student-code
-          schema:
-            type: string
-          required: true
         - in: path
-          name: taskId
+          name: serviceId
           required: true
-          description: The internal mongo id value for the task's entity.
+          description: The internal mongo id value for the service's entity.
           schema:
             type: string
             minLength: 24
       requestBody:
         required: true
-        description: The data body of the task to be updated on mongo database.
+        description: The data body of the service to be updated on mongo database.
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TaskForPatch'
+              $ref: '#/components/schemas/ServiceForPatch'
       responses:
         '200':
           description: The updated task JSON body indicating successfully made request.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TaskResponse'
+                $ref: '#/components/schemas/ServiceResponse'
         '400':
           description: The response is bad because request are malformed or openapi express validations fails.
           content:
@@ -266,7 +238,7 @@ paths:
                   example: Something is wrong, check your data before sending us a love letter.
                   description: The error message.
         '401':
-          description: The student are not authorized to perform operation.
+          description: The user are not authorized to perform operation.
           content:
             text/plain:
                 schema:
@@ -301,20 +273,15 @@ paths:
     delete:
       security:
         - bearerAuth: []
-      summary: Removes single task entry by passing mongo id of the task entity.
-      operationId: removeTaskOperation
+      summary: Removes single service entry by passing mongo id of the service entity.
+      operationId: removeServiceOperation
       tags:
-        - Task
+        - Service
       parameters:
-        - in: header
-          name: student-code
-          schema:
-            type: string
-          required: true
         - in: path
-          name: taskId
+          name: serviceId
           required: true
-          description: The internal mongo id value for the task's entity.
+          description: The internal mongo id value for the service's entity.
           schema:
             type: string
             minLength: 24
@@ -336,210 +303,7 @@ paths:
                   example: Something is wrong, check your data before sending us a love letter.
                   description: The error message.
         '401':
-          description: The student are not authorized to perform operation.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: Get your dirty hands off our application, hacker!
-                  description: The error message.
-        '404':
-          description: The resource requested for update operation is not found by given mongo id value.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: Requested resource does not exist...
-                  description: The error message.
-        '408':
-          description: The request is not malformed but the internal server sent timeout.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: The request timeouted...
-                  description: The error message.
-        '500':
-          description: Internal server error, probably not a user's fault.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: We are having crisis, it's not your fault...
-                  description: The error message.
-        
-#######################
-#######################
-##   LECTURER API    ##
-#######################
-#######################
-  
-  /lecturer:
-    post:
-      security:
-        - bearerAuth: []
-      summary: Creates a new lecturer entry on the mongo database.
-      operationId: createLecturerOperation
-      tags:
-        - Admin
-      parameters:
-        - in: header
-          name: student-code
-          schema:
-            type: string
-          required: true
-      requestBody:
-        required: true
-        description: >
-          The data body of the lecturer to be created on mongo database. Required fields are those:
-           - `name`
-           - `surname`
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Lecturer'
-      responses:
-        '200':
-          description: The created lecturer JSON body indicating successfully made request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Lecturer'
-        '400':
-          description: The response is bad because request are malformed or openapi express validations fails.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: Something is wrong, check your data before sending us a love letter.
-                  description: The error message.
-        '401':
-          description: The student are not authorized as administrator to perform operation.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: Get your dirty hands off our application, hacker!
-                  description: The error message.
-        '408':
-          description: The request is not malformed but the internal server sent timeout.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: The request timeouted...
-                  description: The error message.
-        '500':
-          description: Internal server error, probably not a user's fault.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: We are having crisis, it's not your fault...
-                  description: The error message.
-          
-    get:
-      security:
-        - bearerAuth: []
-      summary: Fetches all lecturers existing in the database.
-      operationId: fetchLecturerOperation
-      tags:
-        - Lecturer
-      parameters:
-        - in: header
-          name: student-code
-          schema:
-            type: string
-          required: true
-        - in: query
-          name: disciplineId
-          required: false
-          description: The internal mongo id value for the discipline's entity. To filter lecturer entries for the certain discipline.
-          schema:
-            type: string
-            minLength: 24
-      responses:
-        '200':
-          description: The fetched lecturer entries, may be fetched by discipline mongo id value. Array of entries and empty array can be returned to indicate empty list. Returning array in JSON body to indicate successfully made request.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Lecturer'
-        '400':
-          description: The response is bad because request are malformed or openapi express validations fails.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: Something is wrong, check your data before sending us a love letter.
-                  description: The error message.
-        '401':
-          description: The student are not authorized to perform operation.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: Get your dirty hands off our application, hacker!
-                  description: The error message.
-        '408':
-          description: The request is not malformed but the internal server sent timeout.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: The request timeouted...
-                  description: The error message.
-        '500':
-          description: Internal server error, probably not a user's fault.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: We are having crisis, it's not your fault...
-                  description: The error message.
-          
-  /lecturer/{lecturerId}:
-    delete:
-      security:
-        - bearerAuth: []
-      summary: Endpoint is used solely for administrative purposes to remove unused lecturer entries from mongo database by passing lecturer mongo id value.
-      operationId: removeLecturerOperation
-      tags:
-        - Admin
-      parameters:
-        - in: header
-          name: student-code
-          schema:
-            type: string
-          required: true
-        - in: path
-          name: lecturerId
-          required: true
-          description: The internal mongo id value for the lecturer's entity.
-          schema:
-            type: string
-            minLength: 24
-      responses:
-        '200':
-          description: Successful response code thrown in case of deletion operation succeed.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: OK.
-                  description: The error message.
-        '400':
-          description: The response is bad because request are malformed or openapi express validations fails.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: Something is wrong, check your data before sending us a love letter.
-                  description: The error message.
-        '401':
-          description: The student are not authorized as administrator to perform operation.
+          description: The user are not authorized to perform operation.
           content:
             text/plain:
                 schema:
@@ -573,40 +337,34 @@ paths:
           
 #########################
 #########################
-##   DISCIPLINE API    ##
+##   READING API    ##
 #########################
 #########################
 
-  /discipline:
+  /reading:
     post:
       security:
         - bearerAuth: []
-      summary: Creates a new discipline entry on the mongo database.
-      operationId: createDisciplineOperation
+      summary: Creates a new reading entry on the mongo database.
+      operationId: createReadingOperation
       tags:
-        - Admin
-      parameters:
-        - in: header
-          name: student-code
-          schema:
-            type: string
-          required: true
+        - Reading
       requestBody:
         required: true
         description: >
-          The data body of the discipline to be created on mongo database. Required fields are those:
+          The data body of the reading to be created on mongo database. Required fields are those:
            - `title`
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Discipline'
+              $ref: '#/components/schemas/Reading'
       responses:
         '200':
-          description: The created discipline JSON body indicating successfully made request.
+          description: The created reading JSON body indicating successfully made request.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Discipline'
+                $ref: '#/components/schemas/Reading'
         '400':
           description: The response is bad because request are malformed or openapi express validations fails.
           content:
@@ -616,7 +374,7 @@ paths:
                   example: Something is wrong, check your data before sending us a love letter.
                   description: The error message.
         '401':
-          description: The student are not authorized as administrator to perform operation.
+          description: The user are not authorized as administrator to perform operation.
           content:
             text/plain:
                 schema:
@@ -643,32 +401,47 @@ paths:
     get:
       security:
         - bearerAuth: []
-      summary: Fetches all disciplines existing in the database.
-      operationId: fetchDisciplineOperation
+      summary: Fetches all readings existing in the database.
+      operationId: fetchReadingOperation
       tags:
-        - Discipline
+        - Reading
       parameters:
-        - in: header
-          name: student-code
-          schema:
-            type: string
-          required: true
         - in: query
-          name: lecturerId
-          required: false
-          description: The internal mongo id value for the lecturer's entity. To filter discipline entries for the certain lecturer.
+          name: serviceId
+          required: true
+          description: The internal mongo id value for the service's entity. To filter reading entries for the certain service.
           schema:
             minLength: 24
             type: string
+        - in: query
+          name: date
+          required: true
+          description: The date for the readings to be selected.
+          schema:
+            type: string
+            format: date-time
+        - in: query
+          name: period
+          required: true
+          description: The period for the readings to be displayed DAY, QUARTER, MONTH.
+          schema:
+            type: string
+            enum: [DAY, QUARTER, MONTH]
       responses:
         '200':
-          description: The fetched discipline entries, may be fetched by lecturer mongo id value. Array of entries and empty array can be returned to indicate empty list. Returning array in JSON body to indicate successfully made request.
+          description: The fetched reading entries.
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Discipline'
+                type: object
+                properties:
+                  unit:
+                    type: string
+                    description: The units for reading.
+                  readings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Reading'
         '400':
           description: The response is bad because request are malformed or openapi express validations fails.
           content:
@@ -678,7 +451,7 @@ paths:
                   example: Something is wrong, check your data before sending us a love letter.
                   description: The error message.
         '401':
-          description: The student are not authorized to perform operation.
+          description: The user are not authorized to perform operation.
           content:
             text/plain:
                 schema:
@@ -702,24 +475,19 @@ paths:
                   example: We are having crisis, it's not your fault...
                   description: The error message.
           
-  /discipline/{disciplineId}:
+  /reading/{readingId}:
     delete:
       security:
         - bearerAuth: []
-      summary: Endpoint is used solely for administrative purposes to remove unused discipline entries from mongo database by passing discipline mongo id value.
-      operationId: removeDisciplineOperation
+      summary: Removes reading's entry from the mongo DB.
+      operationId: removeReadingOperation
       tags:
-        - Admin
+        - Reading
       parameters:
-        - in: header
-          name: student-code
-          schema:
-            type: string
-          required: true
         - in: path
-          name: disciplineId
+          name: readingId
           required: true
-          description: The internal mongo id value for the discipline's entity.
+          description: The internal mongo id value for the reading's entity.
           schema:
             type: string
             minLength: 24
@@ -741,217 +509,7 @@ paths:
                   example: Something is wrong, check your data before sending us a love letter.
                   description: The error message.
         '401':
-          description: The student are not authorized as administrator to perform operation.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: Get your dirty hands off our application, hacker!
-                  description: The error message.
-        '404':
-          description: The resource requested for update operation is not found by given mongo id value.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: Requested resource does not exist...
-                  description: The error message.
-        '408':
-          description: The request is not malformed but the internal server sent timeout.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: The request timeouted...
-                  description: The error message.
-        '500':
-          description: Internal server error, probably not a user's fault.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: We are having crisis, it's not your fault...
-                  description: The error message.
-
-####################################
-####################################
-##   DISCIPLINE & LECTURER API    ##
-####################################
-####################################
-
-  /disciplineLecturer:
-    post:
-      security:
-        - bearerAuth: []
-      summary: Creates a new discipline and lecturer entries relationship on the mongo database. Administrative operation.
-      operationId: createDisciplineLecturerOperation
-      tags:
-        - Admin
-      parameters:
-        - in: header
-          name: student-code
-          schema:
-            type: string
-          required: true
-      requestBody:
-        required: true
-        description: >
-          The data body of the discipline and lecturer relationship to be created on mongo database. Required fields are those:
-           - `disciplineId`
-           - `lecturerId`
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LecturerDiscipline'
-      responses:
-        '200':
-          description: The created discipline and lecturer relationship JSON body indicating successfully made request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LecturerDiscipline'
-        '400':
-          description: The response is bad because request are malformed or openapi express validations fails.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: Something is wrong, check your data before sending us a love letter.
-                  description: The error message.
-        '401':
-          description: The student are not authorized as administrator to perform operation.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: Get your dirty hands off our application, hacker!
-                  description: The error message.
-        '408':
-          description: The request is not malformed but the internal server sent timeout.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: The request timeouted...
-                  description: The error message.
-        '500':
-          description: Internal server error, probably not a user's fault.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: We are having crisis, it's not your fault...
-                  description: The error message.
-                  
-    get:
-      security:
-        - bearerAuth: []
-      summary: Fetches all discipline and lecturer relationships existing in the database. Administrative operation.
-      operationId: fetchDisciplineLecturerOperation
-      tags:
-        - DisciplineLecturer
-      parameters:
-        - in: header
-          name: student-code
-          schema:
-            type: string
-          required: true
-        - in: query
-          name: disciplineId
-          required: false
-          description: The internal mongo id value for the discipline's entity.
-          schema:
-            type: string
-            minLength: 24
-        - in: query
-          name: lecturerId
-          required: false
-          description: The internal mongo id value for the lecturer's entity.
-          schema:
-            type: string
-            minLength: 24
-      responses:
-        '200':
-          description: The fetched discipline and lecturer relationship entries, may be fetched by lecturer and discipline relationship mongo id value. Array of entries and empty array can be returned to indicate empty list. Returning array in JSON body to indicate successfully made request.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/DetalisedLecturerDiscipline'
-        '400':
-          description: The response is bad because request are malformed or openapi express validations fails.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: Something is wrong, check your data before sending us a love letter.
-                  description: The error message.
-        '401':
-          description: The student are not authorized to perform operation.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: Get your dirty hands off our application, hacker!
-                  description: The error message.
-        '408':
-          description: The request is not malformed but the internal server sent timeout.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: The request timeouted...
-                  description: The error message.
-        '500':
-          description: Internal server error, probably not a user's fault.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: We are having crisis, it's not your fault...
-                  description: The error message.
-                  
-  /disciplineLecturer/{disciplineLecturerId}:
-    delete:
-      security:
-        - bearerAuth: []
-      summary: Endpoint is used solely for administrative purposes to remove unused relationship entries from mongo database by passing disciplineLecturer mongo id value.
-      operationId: removeDisciplineLecturerOperation
-      tags:
-        - Admin
-      parameters:
-        - in: header
-          name: student-code
-          schema:
-            type: string
-          required: true
-        - in: path
-          name: disciplineLecturerId
-          required: true
-          description: The internal mongo id value for the disciplineLecturer's entity.
-          schema:
-            type: string
-            minLength: 24
-      responses:
-        '200':
-          description: Successful response code thrown in case of deletion operation succeed.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: OK.
-                  description: The error message.
-        '400':
-          description: The response is bad because request are malformed or openapi express validations fails.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: Something is wrong, check your data before sending us a love letter.
-                  description: The error message.
-        '401':
-          description: The student are not authorized as administrator to perform operation.
+          description: The user are not authorized to perform operation.
           content:
             text/plain:
                 schema:
@@ -985,26 +543,26 @@ paths:
                   
 ######################
 ######################
-##   STUDENT API    ##
+##   USER API    ##
 ######################
 ######################
 
-  /student/login:
+  /user/login:
     post:
-      summary: Authenticates student to use all the defined operations in the swagger.
-      operationId: loginStudentOperation
+      summary: Authenticates user to use all the defined operations in the swagger.
+      operationId: loginUserOperation
       tags:
         - Login
       requestBody:
         required: true
         description: >
-          The data body of the student for upsertion and authentication. Required fields are those:
-           - `studentCode`
+          The data body of the user for upsertion and authentication. Required fields are those:
+           - `email`
            - `password`
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Student'
+              $ref: '#/components/schemas/User'
       responses:
         '200':
           description: Session token for authentication purposes.
@@ -1012,64 +570,7 @@ paths:
             Authentication: 
               schema:
                 type: string
-              description: Session token for the student's authentication towards operation usage.
-        '400':
-          description: The response is bad because request are malformed or openapi express validations fails.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: Something is wrong, check your data before sending us a love letter.
-                  description: The error message.
-        '401':
-          description: The student are not authorized to perform operation.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: Get your dirty hands off our application, hacker!
-                  description: The error message.
-        '408':
-          description: The request is not malformed but the internal server sent timeout.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: The request timeouted...
-                  description: The error message.
-        '500':
-          description: Internal server error, probably not a user's fault.
-          content:
-            text/plain:
-                schema:
-                  type: string
-                  example: We are having crisis, it's not your fault...
-                  description: The error message.
-                  
-  /student/register:
-    post:
-      summary: Registers student to use all the defined operations in the swagger.
-      operationId: registerStudentOperation
-      tags:
-        - Login
-      requestBody:
-        required: true
-        description: >
-          The data body of the student for upsertion and authentication. Required fields are those:
-           - `studentCode`
-           - `password`
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Student'
-      responses:
-        '200':
-          description: Session token for authentication purposes.
-          headers:
-            Authentication: 
-              schema:
-                type: string
-              description: Session token for the student's authentication towards operation usage.
+              description: Session token for the user's authentication towards operation usage.
         '400':
           description: The response is bad because request are malformed or openapi express validations fails.
           content:
@@ -1095,29 +596,73 @@ paths:
                   example: We are having crisis, it's not your fault...
                   description: The error message.
                   
-  /profile/{studentCode}:
+  /user/register:
+    post:
+      summary: Registers user to use all the defined operations in the swagger.
+      operationId: registerUserOperation
+      tags:
+        - Login
+      requestBody:
+        required: true
+        description: >
+          The data body of the user for upsertion and authentication. Required fields are those:
+           - `email`
+           - `password`
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Session token for authentication purposes.
+          headers:
+            Authentication: 
+              schema:
+                type: string
+              description: Session token for the user's authentication towards operation usage.
+        '400':
+          description: The response is bad because request are malformed or openapi express validations fails.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: Something is wrong, check your data before sending us a love letter.
+                  description: The error message.
+        '408':
+          description: The request is not malformed but the internal server sent timeout.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: The request timeouted...
+                  description: The error message.
+        '500':
+          description: Internal server error, probably not a user's fault.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: We are having crisis, it's not your fault...
+                  description: The error message.
+                  
+  /user/{email}:
     get:
       security:
         - bearerAuth: []
-      summary: Gather the information about single student's profile.
-      operationId: profileStudentOperation
+      summary: Gather the information about single user's profile.
+      operationId: getUserOperation
       tags:
-        - Profile
+        - User
       parameters:
-        - in: header
-          name: student-code
-          schema:
-            type: string
-          required: true
         - in: path
-          name: studentCode
+          name: email
           required: true
-          description: The unique code of the certain student.
+          description: The unique email of the certain user.
           schema:
             type: string
       responses:
         '200':
-          description: Successful response code thrown in case of student found and user is authorized to execute current operation.
+          description: Successful response code thrown in case of user found and user is authorized to execute current operation.
           content:
             application/json:
               schema:
@@ -1125,27 +670,14 @@ paths:
                 properties:
                   _id:
                     type: string
-                    description: The internal mongo id value of the student's entity.
-                  studentCode:
+                    description: The internal mongo id value of the user's entity.
+                  email:
                     type: string
-                    description: The unique code of the single student given by university.
-                  isAdmin:
-                    type: boolean
-                    description: The value indicating if student has administrative rights or not.
+                    description: The unique email of the single user.
                   password:
                     type: string
-                    description: The encrypted password for student to log-in into application.
-                  uploadedFiles:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        fileId:
-                          type: string
-                          description: The internal mongo id value for the file.
-                        link:
-                          type: string
-                          description: The download link of the file mapped with the file mongo id value. 
+                    description: The encrypted password for user to log-in into application.
+                  
           
 components:
   securitySchemes:
@@ -1155,7 +687,7 @@ components:
       bearerFormat: JWT
       
   schemas:
-    Task:
+    Service:
       required: 
         - lecturerId
         - disciplineId
@@ -1189,7 +721,7 @@ components:
           format: date-time
           description: The ISO date the task is due to.
           
-    TaskResponse:
+    ServiceResponse:
       properties:
         _id:
           type: string
@@ -1239,7 +771,7 @@ components:
           format: date-time
           description: The ISO date the task is due to.
 
-    TaskForPatch:
+    ServiceForPatch:
       properties:
         _id:
           type: string
@@ -1269,7 +801,7 @@ components:
           format: date-time
           description: The ISO date the task is due to.
         
-    Lecturer:
+    Reading:
       required: 
         - name
         - surname
@@ -1284,99 +816,23 @@ components:
           type: string
           description: Lecturer's surname.
       
-    Discipline:
+    User:
       required: 
-        - title
-      properties:
-        _id:
-          type: string
-          description: The internal mongo id value of the discipline's entity.
-        title:
-          type: string
-          description: The official title of the discipline.
-        aliases:
-          type: array
-          items:
-            type: string
-          description: The nicknames/shorts of the discipline title.
-          
-    LecturerDiscipline:
-      required:
-        - disciplineId
-        - lecturerId
-      properties:
-        _id:
-          type: string
-          description: The internal mongo id value of the lecturer and discipline relationship.
-        disciplineId:
-          type: string
-          description: The discipline's mongo id values array to map lecturer with the disciplines entity has. Single lecturer can lecture one and more discipline.
-        lecturerId:
-          type: string
-          description: The lecturer's mongo id values array to map lecturers lecturing the single discipline. It can have one or more lecturer.
-      
-    Student:
-      required: 
-        - studentCode
+        - email
         - password
       properties:
         _id:
           type: string
-          description: The internal mongo id value of the student's entity.
-        studentCode:
+          description: The internal mongo id value of the user's entity.
+        email:
           type: string
-          description: The identification code of the student given by University itself.
+          description: The identification code of the user.
         password:
           type: string
-          description: The encrypted char sequence for student to login into application.
-        isAdmin:
-          type: boolean
-          description: The boolean flag indicating if the student's entity can perform administrative operations towards lecturers, disciplines or relationships.
-          default: false
-          
-    DetalisedLecturerDiscipline:
-      properties:
-        _id:
+          description: The encrypted char sequence for user to login into application.
+        name:
           type: string
-          description: The internal mongo id value of the lecturer and discipline relationship.
-        disciplineId:
+          description: The user's full name.
+        phone:
           type: string
-          description: The discipline's mongo id values array to map lecturer with the disciplines entity has. Single lecturer can lecture one and more discipline.
-        lecturerId:
-          type: string
-          description: The lecturer's mongo id values array to map lecturers lecturing the single discipline. It can have one or more lecturer. 
-        lecturerNameUsername:
-          type: string
-          description: Lecturer's name and username.
-        disciplineTitle:
-          type: string
-          description: Discipline's title.
-          
-    File:
-      required:
-        - files
-      properties:
-        _id:
-          type: string
-          description: The internal mongo id value of the file information.
-        fileName:
-          type: string
-          description: The name of the file, it's set unique random generated id value.
-        mime:
-          type: string
-          description: The mime type of the file (extension).
-        size:
-          type: number
-          description: The uploaded file size.
-        uploadedAt:
-          type: string
-          format: date-time
-          description: The file upload date with timestamp.
-        studentCode:
-          type: string
-          description: The code of the student who uploaded file/files to the AWS S3 cloud.
-        files:
-          type: array
-          items:
-            type: string
-            format: binary
+          description: The phone number.
