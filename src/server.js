@@ -6,7 +6,7 @@ import responseTime from 'response-time';
 import { initialize } from 'express-openapi';
 import 'express-async-errors';
 
-import https from 'https';
+//import https from 'https';
 import http from 'http';
 import fs from 'fs';
 
@@ -142,9 +142,9 @@ app.use((request, response) => {
   response.status(400).send({ error: 'Broken input...' });
 });
 
-//const httpServer = http.createServer(app);
-const httpsServer = https.createServer(credentials, app);
+const httpServer = http.createServer(app);
+//const httpsServer = https.createServer(credentials, app);
 
-//httpServer.listen(3000, '0.0.0.0', () => console.log('Server is listening on port 8080'));
-httpsServer.listen(port, () => console.log(`Server is listening on port ${port}`));
+httpServer.listen(port, () => console.log(`Server is listening on port ${port}`));
+//httpsServer.listen(port, () => console.log(`Server is listening on port ${port}`));
 module.exports = app;
