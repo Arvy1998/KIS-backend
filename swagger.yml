@@ -9,6 +9,322 @@ paths:
 
 ###################
 ###################
+##   NOTIFICATION API    ##
+###################
+###################
+
+  /notification:
+    post:
+      security:
+        - bearerAuth: []
+      summary: Creates a new notif entry on the mongo database.
+      operationId: createNotificationOperation
+      tags:
+        - Notification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Notification'
+      responses:
+        '200':
+          description: The created notif JSON body indicating successfully made request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+        '400':
+          description: The response is bad because request are malformed or openapi express validations fails.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: Something is wrong, check your data before sending us a love letter.
+                  description: The error message.
+        '401':
+          description: The user are not authorized to perform operation.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: Get your dirty hands off our application, hacker!
+                  description: The error message.
+        '408':
+          description: The request is not malformed but the internal server sent timeout.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: The request timeouted...
+                  description: The error message.
+        '500':
+          description: Internal server error, probably not a user's fault.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: We are having crisis, it's not your fault...
+                  description: The error message.
+
+    get:
+      security:
+        - bearerAuth: []
+      summary: Fetches all services by filtering them with one or more query entries.
+      operationId: fetchNotificationOperation
+      tags:
+        - Notification
+      parameters:
+        - in: query
+          name: userId
+          required: false
+          description: The internal mongo id value for the user's entity.
+          schema:
+            type: string
+            minLength: 24
+      responses:
+        '200':
+          description: The fetched service entries by any of query parameters choosen. Array of entries and empty array can be returned to indicate empty list. Returning array in JSON body to indicate successfully made request.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notification'
+        '400':
+          description: The response is bad because request are malformed or openapi express validations fails.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: Something is wrong, check your data before sending us a love letter.
+                  description: The error message.
+        '401':
+          description: The user are not authorized to perform operation.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: Get your dirty hands off our application, hacker!
+                  description: The error message.
+        '408':
+          description: The request is not malformed but the internal server sent timeout.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: The request timeouted...
+                  description: The error message.
+        '500':
+          description: Internal server error, probably not a user's fault.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: We are having crisis, it's not your fault...
+                  description: The error message.
+          
+  /notification/{notificationId}:
+    get:
+      security:
+        - bearerAuth: []
+      summary: Gathers single notif entry by passing internal mongo id of the notif.
+      operationId: getNotificationOperation
+      tags:
+        - Notification
+      parameters:
+        - in: path
+          name: notificationId
+          required: true
+          description: The internal mongo id value for the Notification's entity.
+          schema:
+            type: string
+            minLength: 24
+      responses:
+        '200':
+          description: The requested Notification entity is found, returning Notification JSON body to indicate successfully made request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+        '400':
+          description: The response is bad because request are malformed or openapi express validations fails.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: Something is wrong, check your data before sending us a love letter.
+                  description: The error message.
+        '401':
+          description: The user are not authorized to perform operation.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: Get your dirty hands off our application, hacker!
+                  description: The error message.
+        '404':
+          description: The resource is not found by given mongo id value.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: Requested resource does not exist...
+                  description: The error message.
+        '408':
+          description: The request is not malformed but the internal server sent timeout.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: The request timeouted...
+                  description: The error message.
+        '500':
+          description: Internal server error, probably not a user's fault.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: We are having crisis, it's not your fault...
+                  description: The error message.
+          
+    patch:
+      security:
+        - bearerAuth: []
+      summary: Updates single Notification entry by passing mongo id of the Notification and specific field to update.
+      operationId: updateNotificationOperation
+      tags:
+        - Notification
+      parameters: 
+        - in: path
+          name: notificationId
+          required: true
+          description: The internal mongo id value for the Notification's entity.
+          schema:
+            type: string
+            minLength: 24
+      requestBody:
+        required: true
+        description: The data body of the Notification to be updated on mongo database.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Notification'
+      responses:
+        '200':
+          description: The updated task JSON body indicating successfully made request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+        '400':
+          description: The response is bad because request are malformed or openapi express validations fails.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: Something is wrong, check your data before sending us a love letter.
+                  description: The error message.
+        '401':
+          description: The user are not authorized to perform operation.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: Get your dirty hands off our application, hacker!
+                  description: The error message.
+        '404':
+          description: The resource requested for update operation is not found by given mongo id value.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: Requested resource does not exist...
+                  description: The error message.
+        '408':
+          description: The request is not malformed but the internal server sent timeout.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: The request timeouted...
+                  description: The error message.
+        '500':
+          description: Internal server error, probably not a user's fault.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: We are having crisis, it's not your fault...
+                  description: The error message.
+          
+    delete:
+      security:
+        - bearerAuth: []
+      summary: Removes single Notification entry by passing mongo id of the Notification entity.
+      operationId: removeNotificationOperation
+      tags:
+        - Notification
+      parameters:
+        - in: path
+          name: notificationId
+          required: true
+          description: The internal mongo id value for the Notification's entity.
+          schema:
+            type: string
+            minLength: 24
+      responses:
+        '200':
+          description: Successful response code thrown in case of deletion operation succeed.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: OK.
+                  description: The error message.
+        '400':
+          description: The response is bad because request are malformed or openapi express validations fails.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: Something is wrong, check your data before sending us a love letter.
+                  description: The error message.
+        '401':
+          description: The user are not authorized to perform operation.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: Get your dirty hands off our application, hacker!
+                  description: The error message.
+        '404':
+          description: The resource requested for update operation is not found by given mongo id value.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: Requested resource does not exist...
+                  description: The error message.
+        '408':
+          description: The request is not malformed but the internal server sent timeout.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: The request timeouted...
+                  description: The error message.
+        '500':
+          description: Internal server error, probably not a user's fault.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: We are having crisis, it's not your fault...
+                  description: The error message.
+
+###################
+###################
 ##   SERVICE API    ##
 ###################
 ###################
@@ -711,6 +1027,22 @@ components:
         unit:
           type: string
           description: The unit of the service reading.
+        costPerUnit:
+          type: number
+          description: Cost per unit.
+    
+    Notification:
+      properties:
+        _id:
+          type: string
+        serviceId:
+          type: string
+        triggerValue:
+          type: number
+        deviceId:
+          type: string
+        userId:
+          type: string
         
     Reading:
       required: 
@@ -726,6 +1058,8 @@ components:
         value:
           type: number
           description: Value of the reading.
+        serviceId:
+          type: string
       
     User:
       required: 

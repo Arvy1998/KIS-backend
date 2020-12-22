@@ -24,6 +24,7 @@ const serviceSchema = new mongoose.Schema({
     index: true,
   },
   unit: String,
+  costPerUnit: Number,
 });
 
 const Service = mongoose.model('Service', serviceSchema);

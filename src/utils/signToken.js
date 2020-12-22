@@ -5,6 +5,7 @@ const signToken = async (user) => {
   const privatekey = fs.readFileSync(`${__dirname}/../ssl/service.key`);
 
   const payload = {
+    userId: user._id,
     email: user.email,
     password: user.password,
   };

@@ -28,6 +28,13 @@ import loginUserOperation from 'operations/user/login';
 import registerUserOperation from 'operations/user/register';
 import getUserOperation from 'operations/user/get';
 
+/* notification's operations */
+import createNotificationOperation from 'operations/notification/create';
+import fetchNotificationOperation from 'operations/notification/fetch';
+import getNotificationOperation from 'operations/notification/get';
+import updateNotificationOperation from 'operations/notification/update';
+import removeNotificationOperation from 'operations/notification/remove';
+
 /* errors */
 import PasswordsMissmatch from 'errors/PasswordsMissmatch';
 import UserNotAuthorized from 'errors/UserNotAuthorized';
@@ -123,6 +130,13 @@ initialize({
     loginUserOperation,
     registerUserOperation,
     getUserOperation,
+
+    /* notification's operations */
+    createNotificationOperation,
+    fetchNotificationOperation,
+    getNotificationOperation,
+    updateNotificationOperation,
+    removeNotificationOperation,
   },
 });
 
