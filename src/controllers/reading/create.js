@@ -13,7 +13,7 @@ const createReading = async (reading, userId) => {
     serviceId: newReading.serviceId,
   });
 
-  if (notification && notification.triggerValue >= newReading.value) {
+  if (notification && notification.triggerValue <= newReading.value) {
     const user = await User.findOne({
       _id: userId,
     });
