@@ -51,7 +51,7 @@ import * as firebase from 'firebase-admin';
 import apiDoc from '../swagger.yml';
 import connect from './connect';
 
-const serviceAccount = require('../serviceAccountKey.json');
+const serviceAccount = require(`${__dirname}/serviceAccountKey.json`);
 
 firebase.initializeApp({
   credential: firebase.credential.cert(serviceAccount),
