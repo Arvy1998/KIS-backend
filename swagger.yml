@@ -411,7 +411,6 @@ paths:
           description: The type of the service.
           schema:
             type: string
-            minLength: 24
       responses:
         '200':
           description: The fetched service entries by any of query parameters choosen. Array of entries and empty array can be returned to indicate empty list. Returning array in JSON body to indicate successfully made request.
