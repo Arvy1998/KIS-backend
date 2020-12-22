@@ -13,7 +13,7 @@ const createReadingOperation = async (request, response) => {
     throw new UserNotAuthorized();
   }
 
-  const newReading = await createReading(reading);
+  const newReading = await createReading(reading, loggedIn.userId);
 
   if (newReading) {
     return response.status(200).send(newReading);

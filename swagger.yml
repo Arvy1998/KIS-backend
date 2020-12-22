@@ -1089,9 +1089,6 @@ components:
           type: string
           enum: [WATER, ENERGY, HEAT, PHONE, INTERNET, TV, MANUAL]
           description: The type of the service entity.
-        userId:
-          type: string
-          description: The id of the user holding service.
         unit:
           type: string
           description: The unit of the service reading.
@@ -1108,8 +1105,6 @@ components:
         triggerValue:
           type: number
         deviceId:
-          type: string
-        userId:
           type: string
         
     Reading:

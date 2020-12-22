@@ -47,8 +47,16 @@ import { TokenExpiredError } from 'jsonwebtoken';
 /* validations */
 import isOpenApiError from 'validations/isOpenApiError';
 
+import * as firebase from 'firebase-admin';
 import apiDoc from '../swagger.yml';
 import connect from './connect';
+
+const serviceAccount = require('../serviceAccountKey.json');
+
+firebase.initializeApp({
+  credential: firebase.credential.cert(serviceAccount),
+  databaseURL: 'https://kis-app.firebaseio.com',
+});
 
 const port = process.env.PORT || 3000;
 
