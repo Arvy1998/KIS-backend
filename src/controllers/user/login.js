@@ -11,6 +11,10 @@ const login = async (user) => {
     throw new UserDoesNotExist();
   }
 
+  if (user.token) {
+    userWithHash.token = user.token;
+  }
+
   const match = new Promise((resolve, reject) => {
     bcrypt.compare(user.password, userWithHash.password, (error, result) => {
       if (error) reject(error);
@@ -20,7 +24,12 @@ const login = async (user) => {
 
   if (!(await match)) {
     throw new PasswordsMissmatch();
-  } else return userWithHash;
+  } else {
+    await User.findOneAndUpdate(
+      { email: user.email }, userWithHash, { new: true, useFindAndModify: false },
+    );
+    return userWithHash;
+  };
 };
 
 export default login;

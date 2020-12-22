@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: service-university-task
-  description: Service for API of university task management.
+  title: KIS-app
+  description: Service for API of KIS.
   version: 1.0.0
 servers:
   - url: https://kalibatiene-app-backend.herokuapp.com/v1/
@@ -1143,3 +1143,6 @@ components:
         phone:
           type: string
           description: The phone number.
+        token:
+          type: string
+          description: Reikalingas Firebasui? Ne JWT token
