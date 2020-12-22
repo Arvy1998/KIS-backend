@@ -5,7 +5,11 @@ import verifyToken from 'validations/verifyToken';
 import UserNotAuthorized from 'errors/UserNotAuthorized';
 
 const fetchReadingOperation = async (request, response) => {
-  const { query } = request;
+  const { 
+    serviceId,
+    date,
+    period,
+  } = request.query;
 
   const loggedIn = await verifyToken(request);
 
@@ -13,7 +17,7 @@ const fetchReadingOperation = async (request, response) => {
     throw new UserNotAuthorized();
   }
 
-  return response.send(await fetchReading(query));
+  return response.send(await fetchReading(serviceId, date, period));
 };
 
 export default fetchReadingOperation;

@@ -27,6 +27,7 @@ import removeReadingOperation from 'operations/reading/remove';
 import loginUserOperation from 'operations/user/login';
 import registerUserOperation from 'operations/user/register';
 import getUserOperation from 'operations/user/get';
+import updateUserOperation from 'operations/user/update';
 
 /* notification's operations */
 import createNotificationOperation from 'operations/notification/create';
@@ -130,6 +131,7 @@ initialize({
     loginUserOperation,
     registerUserOperation,
     getUserOperation,
+    updateUserOperation,
 
     /* notification's operations */
     createNotificationOperation,

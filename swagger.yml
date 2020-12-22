@@ -999,7 +999,75 @@ paths:
                   password:
                     type: string
                     description: The encrypted password for user to log-in into application.
-                  
+  /user/{userId}:
+    patch:
+      security:
+        - bearerAuth: []
+      summary: Updates single User entry by passing mongo id of the User and specific field to update.
+      operationId: updateUserOperation
+      tags:
+        - User
+      parameters: 
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+            minLength: 24
+      requestBody:
+        required: true
+        description: The data body of the User to be updated on mongo database.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: The updated task JSON body indicating successfully made request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: The response is bad because request are malformed or openapi express validations fails.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: Something is wrong, check your data before sending us a love letter.
+                  description: The error message.
+        '401':
+          description: The user are not authorized to perform operation.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: Get your dirty hands off our application, hacker!
+                  description: The error message.
+        '404':
+          description: The resource requested for update operation is not found by given mongo id value.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: Requested resource does not exist...
+                  description: The error message.
+        '408':
+          description: The request is not malformed but the internal server sent timeout.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: The request timeouted...
+                  description: The error message.
+        '500':
+          description: Internal server error, probably not a user's fault.
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: We are having crisis, it's not your fault...
+                  description: The error message.
           
 components:
   securitySchemes:
